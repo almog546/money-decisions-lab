@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import Login from './Login/Login';
+import Signup from './Signup/Signup';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import Home from './Home/Home.jsx';
+import Navbar from './Navbar/Navbar.jsx';
+import Insights from './Insights/Insights.jsx';
+import History from './History/History.jsx';
+import Newbuy from './Newbuy/Newbuy.jsx';
+import Logout from './Logout/Logout.jsx';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [user, setUser] = useState(null);
+    const location = useLocation();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/api/auth/me`,
+                    {
+                        method: 'GET',
+                        credentials: 'include',
+                    }
+                );
+                if (res.ok) {
+                    const data = await res.json();
+                    setUser(data);
+                } else {
+                    setUser(null);
+                }
+            } catch (error) {
+                setUser(null);
+            }
+        }
+        fetchUser();
+    }, [location]);
+
+    return (
+        <>
+            {user && <Navbar user={user} />}
+            <Routes>
+                <Route path="/login" element={<Login user={user} />} />
+                <Route path="/signup" element={<Signup user={user} />} />
+
+                <Route element={<ProtectedRoute user={user} />}>
+                    <Route path="/" element={<Home user={user} />} />
+                    <Route
+                        path="/insights"
+                        element={<Insights user={user} />}
+                    />
+                    <Route path="/history" element={<History user={user} />} />
+                    <Route path="/newbuy" element={<Newbuy user={user} />} />
+                    <Route path="/logout" element={<Logout user={user} />} />
+                </Route>
+            </Routes>
+        </>
+    );
 }
 
-export default App
+export default App;
