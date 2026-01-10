@@ -14,7 +14,25 @@ import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx';
 
 function App() {
     const [user, setUser] = useState(null);
+    const [logout, setLogout] = useState(false);
     const location = useLocation();
+    async function onLogout() {
+        try {
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+                {
+                    method: 'POST',
+                    credentials: 'include',
+                }
+            );
+            if (res.ok) {
+                setUser(null);
+                setLogout(true);
+            }
+        } catch (error) {
+            console.error('Logout failed', error);
+        }
+    }
 
     useEffect(() => {
         async function fetchUser() {
@@ -41,7 +59,7 @@ function App() {
 
     return (
         <>
-            {user && <Navbar user={user} />}
+            {user && <Navbar user={user} onLogout={onLogout} />}
             <Routes>
                 <Route path="/login" element={<Login user={user} />} />
                 <Route path="/signup" element={<Signup user={user} />} />

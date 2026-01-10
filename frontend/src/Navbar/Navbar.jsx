@@ -1,41 +1,58 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
+import { Menu } from 'lucide-react';
+import { useState } from 'react';
 
-export default function Navbar({ user }) {
+export default function Navbar({ onLogout }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    function toggleMenu() {
+        setIsMenuOpen((prev) => !prev);
+    }
+
     return (
-        <>
-            <nav className={styles.navbar}>
-                <Link to="/" className={styles.logo}>
-                    Money Decisions Lab
+        <nav className={styles.navbar}>
+            <div className={styles.left}>
+                <Link to="/" className={styles.link}>
+                    Home
                 </Link>
-                <div className={styles.links}>
-                    {user ? (
-                        <>
-                            <Link to="/insights" className={styles.link}>
-                                Insights
-                            </Link>
-                            <Link to="/history" className={styles.link}>
-                                History
-                            </Link>
-                            <Link to="/newbuy" className={styles.link}>
-                                New Buy
-                            </Link>
-                            <Link to="/logout" className={styles.link}>
-                                Logout
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" className={styles.link}>
-                                Login
-                            </Link>
-                            <Link to="/signup" className={styles.link}>
-                                Signup
-                            </Link>
-                        </>
-                    )}
+                <Link to="/insights" className={styles.link}>
+                    Insights
+                </Link>
+                <Link to="/history" className={styles.link}>
+                    History
+                </Link>
+            </div>
+
+            <div className={styles.right}>
+                <Link to="/newbuy" className={styles.primary}>
+                    New Decision
+                </Link>
+
+                <span onClick={onLogout} className={styles.link}>
+                    Logout
+                </span>
+            </div>
+            <Menu size={24} className={styles.menu} onClick={toggleMenu} />
+            {isMenuOpen && (
+                <div className={styles.dropdown}>
+                    <Link
+                        to="/newbuy"
+                        className={styles.primary}
+                        onClick={toggleMenu}
+                    >
+                        New Decision
+                    </Link>
+                    <span
+                        onClick={() => {
+                            onLogout();
+                            toggleMenu();
+                        }}
+                        className={styles.logout}
+                    >
+                        Logout
+                    </span>
                 </div>
-            </nav>
-        </>
+            )}
+        </nav>
     );
 }
