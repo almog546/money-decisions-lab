@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,8 +19,34 @@ model User {
   email     String   @unique
   name      String
   password  String
- 
   createdAt DateTime @default(now())
-  
-  
+  decisions Decision[]
+}
+model Decision {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  amount       Float
+  type        DecisionType
+  confidence  confidenceLevel
+  createdAt   DateTime @default(now())
+  reviewAt DateTime?
+  reviewOutcome outcomepurchase?
+  reviewedAt DateTime?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+enum DecisionType {
+  Purchase
+  Subscription
+}
+enum confidenceLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+enum outcomepurchase {
+ YES
+  NO
+  DONTMATTER
 }

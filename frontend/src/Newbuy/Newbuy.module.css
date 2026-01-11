@@ -1,0 +1,87 @@
+.container {
+    max-width: 520px;
+    margin: 3rem auto;
+    padding: 2.5rem 2.5rem 3rem;
+    background: #fafafa;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.container h1 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #374151;
+}
+
+input,
+textarea,
+select {
+    padding: 0.65rem 0.7rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #9ca3af;
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+.row label {
+    flex: 1;
+}
+
+.submitButton {
+    align-self: flex-end;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: none;
+    background: #111827;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background: #1f2937;
+}
+@media (max-width: 600px) {
+    .container {
+        margin: 2rem 1rem;
+        padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+}

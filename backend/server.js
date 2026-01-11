@@ -25,6 +25,9 @@ app.use(
     })
 );
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/decisions', require('./routes/decisionRoutes'));
+app.use('/api/newdecisions', require('./routes/newDecisionRoutes'));
+app.use('/api/reviewOutcome', require('./routes/reviewOutcomeRoutes'));
 
 app.use((err, req, res, next) => {
     console.error('Error:', err.message);
