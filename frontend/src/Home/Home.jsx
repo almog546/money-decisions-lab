@@ -77,6 +77,7 @@ export default function Home() {
                             >
                                 <h3>{purchase.title}</h3>
                                 <p>Cost: ${purchase.amount}</p>
+                                <p>Confidence: {purchase.confidence}</p>
 
                                 <label>
                                     Would you make the same decision again?
