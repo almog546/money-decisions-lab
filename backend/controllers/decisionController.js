@@ -3,13 +3,13 @@ const prisma = require('../prismaClient');
 async function getReviewDecisions(req, res) {
     const oneWeek = new Date();
     oneWeek.setDate(oneWeek.getDate() + 7);
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+
     try {
         const decisions = await prisma.decision.findMany({
             where: {
                 userId: req.session.userId,
                 createdAt: {
-                    lte: fiveMinutesAgo,
+                    lte: oneWeek,
                 },
                 reviewedAt: null,
             },
