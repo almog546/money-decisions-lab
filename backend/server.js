@@ -29,6 +29,7 @@ app.use('/api/decisions', require('./routes/decisionRoutes'));
 app.use('/api/newdecisions', require('./routes/newDecisionRoutes'));
 app.use('/api/reviewOutcome', require('./routes/reviewOutcomeRoutes'));
 app.use('/api/history', require('./routes/historyRoutes'));
+app.use('/api/graph', require('./routes/graphRoutes'));
 
 app.use((err, req, res, next) => {
     console.error('Error:', err.message);
